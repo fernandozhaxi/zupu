@@ -5,7 +5,10 @@ import sys
 
 # 项目入口
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zupu.settings')
+    if os.getlogin() == 'cloud':
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zupu.settings_lliu')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zupu.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
