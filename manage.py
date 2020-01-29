@@ -6,7 +6,7 @@ import sys
 # 项目入口
 def main():
     if os.getlogin() == 'cloud':
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zupu.settings_lliu')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zupu.settings_lliu_new')
     else:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zupu.settings')
     try:

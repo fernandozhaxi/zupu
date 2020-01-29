@@ -16,9 +16,31 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls import url
+from django.contrib import admin
+from django.urls import include, path
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+import quickstart.views as qViews
+
+router = routers.DefaultRouter()
+router.register(r'users', qViews.UserViewSet)
+router.register(r'groups', qViews.GroupViewSet)
+router.register(r'persons', qViews.PersonViewSet)
 
 urlpatterns = [
+    # Wire up our API using automatic URL routing.
+    # Additionally, we include login URLs for the browsable API.
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    path("admin", admin.site.urls),
+    path("login", auth_views.auth_login),
+    path("logout", auth_views.auth_logout),
     url(r'^admin/', admin.site.urls),
-    url('user', include('apps.user.urls')),
     url(r'index', TemplateView.as_view(template_name="index.html")),
 ]
