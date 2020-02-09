@@ -31,7 +31,7 @@ class Person(models.Model):
     haoName = models.CharField(max_length=8, unique=False, null=True, blank=True, verbose_name='号')
     father = models.ForeignKey(
         'self',
-        related_name="dad",
+        related_name="childOfFather",
         on_delete=models.SET_NULL,
         verbose_name="Father",
         null=True,
@@ -39,7 +39,7 @@ class Person(models.Model):
     )
     mother = models.ForeignKey(
         'self',
-        related_name="mom",
+        related_name="childOfMother",
         on_delete=models.SET_NULL,
         verbose_name="Mother",
         null=True,
@@ -59,12 +59,12 @@ class Person(models.Model):
         verbose_name="Sibling",
         blank=True,
     )
-    child = models.ManyToManyField(
-        'self',
-        related_name="kids",
-        verbose_name="Kids",
-        blank=True,
-    )
+    #child = models.ManyToManyField(
+    #    'self',
+    #    related_name="kids",
+    #    verbose_name="Kids",
+    #    blank=True,
+    #)
 
     index = models.IntegerField(default=1)
     birthDay = models.DateField("Birthday", null=True, blank=True)

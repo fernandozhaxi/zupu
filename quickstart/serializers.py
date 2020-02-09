@@ -18,3 +18,8 @@ class PersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Person
         fields = '__all__'
+
+class RelativeSerializer(serializers.HyperlinkedModelSerializer):
+    person = serializers.PrimaryKeyRelatedField(
+        queryset=Person.objects.all()
+    )

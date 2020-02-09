@@ -13,3 +13,11 @@
 
 Run server:
   python manage.py runserver --settings=zupu.settings_lliu_new
+
+查看person 1 的信息
+  个人信息
+  http://127.0.0.1:8000/persons/1
+  
+  直接亲属
+  http://127.0.0.1:8000/1/relatives
+

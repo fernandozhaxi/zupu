@@ -36,6 +36,9 @@ urlpatterns = [
     # Wire up our API using automatic URL routing.
     # Additionally, we include login URLs for the browsable API.
     path('', include(router.urls)),
+    path('<int:pk>/relatives', qViews.RelativesList.as_view()),
+    path('<int:pk>/father', qViews.FatherList.as_view()),
+    path('<int:pk>/mother', qViews.MotherList.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path("admin", admin.site.urls),
