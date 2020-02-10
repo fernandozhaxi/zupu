@@ -22,6 +22,19 @@ class Contributor(models.Model):
     def __str__(self):
         return self.name.username
 
+class Family(models.Model):
+    name = models.CharField(max_length=32, unique=False, verbose_name='族')
+    location = models.CharField(max_length=128, unique=False, verbose_name='地理位置')
+    descipline = models.TextField("祖训", blank=True, null=True)
+    description = models.TextField("其他描述", blank=True, null=True)
+    contributor = models.ManyToManyField(
+        User, related_name="familyContributors", verbose_name="Family Contributors"
+    )
+
+    def __str__(self):
+        return "{}-{}-{}".format(self.name, self.location ,self.pk)
+        verbose_name_plural = "Families"
+
 class Person(models.Model):
     GENDERS = (('male','男'),('female','女'))
     FirstName = models.CharField(max_length=8, unique=False, verbose_name='姓')
@@ -29,6 +42,14 @@ class Person(models.Model):
     beiName = models.CharField(max_length=8, unique=False, null=True, blank=True, verbose_name='辈')
     ziName = models.CharField(max_length=8, unique=False, null=True, blank=True, verbose_name='字')
     haoName = models.CharField(max_length=8, unique=False, null=True, blank=True, verbose_name='号')
+    family = models.ForeignKey(
+        Family,
+        related_name="family",
+        on_delete=models.SET_NULL,
+        verbose_name="family",
+        null=True,
+        blank=True,
+    )
     father = models.ForeignKey(
         'self',
         related_name="childOfFather",
@@ -74,7 +95,7 @@ class Person(models.Model):
         max_length=8, unique=False, verbose_name='性别', choices=GENDERS, default='男'
     )
     contributors = models.ManyToManyField(
-        User, related_name="contributors", verbose_name="Contributors"
+        User, related_name="personContributors", verbose_name="Person Contributors"
     )
 
     def __str__(self):
@@ -82,7 +103,7 @@ class Person(models.Model):
 
     class Meta:
         ordering = ["id"]
-        verbose_name_plural = "Person"
+        verbose_name_plural = "Persons"
 
 class Attachment(models.Model):
     person = models.ForeignKey(Person, related_name="attachments", on_delete=models.CASCADE)

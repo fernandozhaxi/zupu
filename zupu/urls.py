@@ -31,6 +31,7 @@ router = routers.DefaultRouter()
 router.register(r'users', qViews.UserViewSet)
 router.register(r'groups', qViews.GroupViewSet)
 router.register(r'persons', qViews.PersonViewSet)
+router.register(r'families', qViews.FamilyViewSet)
 
 urlpatterns = [
     # Wire up our API using automatic URL routing.

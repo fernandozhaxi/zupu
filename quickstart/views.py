@@ -5,10 +5,11 @@ from django.http import JsonResponse
 from rest_framework import viewsets
 from quickstart.serializers import *
 from quickstart.models import  *
+from quickstart.permissions import IsOwnerOrReadOnly
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from IPython import embed
 
 def get_father_q( pk):
@@ -47,12 +48,30 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+class FamilyViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Persons to be viewed or edited.
+    """
+    #queryset = Family.objects.all()
+    #serializer_class = FamilySerializer
+    queryset = Family.objects.all()
+    serializer_class = FamilySerializer
+    #permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+    #                  IsOwnerOrReadOnly]
+
+    #def get(self, request, pk):
+    #    f = Family.objects.filter(family=pk).distinct()
+    #    serializer = FamilySerializer(instance=f, context={'request': request}, many=True)
+    #    return Response(serializer.data)
+
 class PersonViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Persons to be viewed or edited.
     """
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly]
 
 class RelativesList(APIView):
     """
